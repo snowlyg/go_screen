@@ -46,7 +46,7 @@ func main() {
 	}
 	defer ui.Close()
 
-	// A simple way to know when UI is ready (uses body.onload event in JS)
+	// 想要知道 UI 是不是准备就绪，一种简单的方法是（在 JS 中使用 body.onload 事件）
 	ui.Bind("开启", func() {
 		log.Println("UI已经就绪")
 	})
@@ -56,15 +56,16 @@ func main() {
 	ui.Bind("counterAdd", c.Add)
 	ui.Bind("counterValue", c.Value)
 
-	// Load HTML.
-	// You may also use `data:text/html,<base64>` approach to load initial HTML,
-	// e.g: ui.Load("data:text/html," + url.PathEscape(html))
+	// 加载 HTML.
+	// 你也可以使用 `data:text/html,<base64>` 方法来加载初始化 HTML,
+	// 即: ui.Load("data:text/html," + url.PathEscape(html))
 
 	ln, err := net.Listen("tcp", "127.0.0.1:0")
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer ln.Close()
+
 	go http.Serve(ln, http.FileServer(FS))
 	ui.Load(fmt.Sprintf("http://%s", ln.Addr()))
 
@@ -83,5 +84,5 @@ func main() {
 	case <-ui.Done():
 	}
 
-	log.Println("退出中...")
+	log.Println("程序退出...")
 }
